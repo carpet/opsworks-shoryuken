@@ -28,26 +28,28 @@ bundle exec shoryuken -R -C config/shoryuken.yml 2>&1 >> log/shoryuken.log
 
 ### Sample Chef JSON configuration
 
-Here is an example Custom JSON which overrides overrides the start_command to not load the Rails application and read workers from a boot.rb file:
-
-```json
-{
-  "deploy": {
-    "YOURAPPNAME": {
-      "shoryuken": {
-        "start_command": "bundle exec shoryuken -C config/shoryuken.yml -r ./config/boot.rb 2>&1 >> log/shoryuken.log"
-      }
-    }
-  }
-}
-```
+Opsworks will underscore and lowercase your application name. "My Application" becomes "my_application". In the JSON below you **must** provide the converted application name, otherwise the service file (shoryuken.conf) will not be correctly configured.
 
 Here is the minimum deploy config required:
 ```json
 {
   "deploy": {
-    "YOURAPPNAME": {
+    "your_app_name": {
       "shoryuken": {}
+    }
+  }
+}
+```
+
+Here is an example Custom JSON which overrides overrides the start_command to not load the Rails application and read workers from a boot.rb file: 
+
+```json
+{
+  "deploy": {
+    "your_app_name": {
+      "shoryuken": {
+        "start_command": "bundle exec shoryuken -C config/shoryuken.yml -r ./config/boot.rb 2>&1 >> log/shoryuken.log"
+      }
     }
   }
 }
